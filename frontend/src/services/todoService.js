@@ -42,6 +42,10 @@ export const todoService = {
 
     // 일괄 삭제
     deleteMultipleTodos(ids) {
-        return axios.post(`${API_BASE_URL}/delete-multiple`, ids);
+        return axios.post(`${API_BASE_URL}/delete-multiple`, ids, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 };

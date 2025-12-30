@@ -95,16 +95,13 @@ public class TodoService {
             throw new RuntimeException("삭제할 할일 ID가 없습니다.");
         }
 
-        // 각 ID에 대해 삭제 실행
+        // 존재하지 않는 ID는 무시하고 계속 진행
         for (Long id : ids) {
-            if (!todoRepository.existsById(id)) {
-                throw new RuntimeException("할일을 찾을 수 없습니다. ID: " + id);
+            try {
+                todoRepository.deleteById(id);
+            } catch (Exception e) {
+                // 이미 삭제되었거나 존재하지 않는 경우 무시
             }
-        }
-
-        // 모든 ID가 존재하면 삭제
-        for (Long id : ids) {
-            todoRepository.deleteById(id);
         }
     }
 }
