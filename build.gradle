@@ -22,6 +22,11 @@ configurations {
     }
 }
 
+// Java 컴파일러 옵션 - 파라미터 이름 보존
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
+
 repositories {
     mavenCentral()
 }

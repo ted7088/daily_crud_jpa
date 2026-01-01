@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api/todos';
+const API_BASE_URL = 'http://localhost:8081/api/todos';
 
 export const todoService = {
     // 전체 조회
@@ -42,7 +42,10 @@ export const todoService = {
 
     // 일괄 삭제
     deleteMultipleTodos(ids) {
-        return axios.post(`${API_BASE_URL}/delete-multiple`, ids, {
+        return axios({
+            method: 'delete',
+            url: `${API_BASE_URL}/batch`,
+            data: ids,
             headers: {
                 'Content-Type': 'application/json'
             }

@@ -22,7 +22,7 @@ public class TodoController {
     // 전체 조회
     @GetMapping
     public ResponseEntity<List<TodoResponseDto>> getAllTodos(
-            @RequestParam(required = false) Boolean completed) {
+            @RequestParam(value = "completed", required = false) Boolean completed) {
 
         List<TodoResponseDto> todos;
         if (completed != null) {
@@ -35,7 +35,7 @@ public class TodoController {
 
     // 단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<TodoResponseDto> getTodoById(@PathVariable Long id) {
+    public ResponseEntity<TodoResponseDto> getTodoById(@PathVariable("id") Long id) {
         TodoResponseDto todo = todoService.getTodoById(id);
         return ResponseEntity.ok(todo);
     }
@@ -50,7 +50,7 @@ public class TodoController {
     // 수정
     @PutMapping("/{id}")
     public ResponseEntity<TodoResponseDto> updateTodo(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @Valid @RequestBody TodoRequestDto requestDto) {
         TodoResponseDto updatedTodo = todoService.updateTodo(id, requestDto);
         return ResponseEntity.ok(updatedTodo);
@@ -58,20 +58,20 @@ public class TodoController {
 
     // 완료 상태 토글
     @PatchMapping("/{id}/toggle")
-    public ResponseEntity<TodoResponseDto> toggleTodo(@PathVariable Long id) {
+    public ResponseEntity<TodoResponseDto> toggleTodo(@PathVariable("id") Long id) {
         TodoResponseDto toggledTodo = todoService.toggleTodo(id);
         return ResponseEntity.ok(toggledTodo);
     }
 
     // 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable("id") Long id) {
         todoService.deleteTodo(id);
         return ResponseEntity.noContent().build();
     }
 
     // 일괄 삭제
-    @PostMapping("/delete-multiple")
+    @DeleteMapping("/batch")
     public ResponseEntity<Void> deleteMultipleTodos(@RequestBody List<Long> ids) {
         todoService.deleteMultipleTodos(ids);
         return ResponseEntity.noContent().build();
